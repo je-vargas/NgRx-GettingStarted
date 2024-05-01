@@ -14,3 +14,14 @@ export const setCurrentProduct = createAction(
   '[Product] Set Current Product',
   props<{ product: Product }>()
 );
+
+export const loadProducts = createAction('[Product] Load');
+
+export const loadProductsSuccess = createAction(
+  '[Product] Load Success',
+  props<{ products: Product[] }>()
+);
+export const loadProductsFailure = createAction(
+  '[Product] Load Fail',
+  props<{ error: string }>()
+);
