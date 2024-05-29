@@ -17,7 +17,8 @@ const initialState: UserState = {
   maskUserName: false,
 };
 
-const getUserFeatureState = createFeatureSelector<UserState>('users');
+//* the state for this is declared globally in app state folder
+const getUserFeatureState = createFeatureSelector<UserState>('users'); 
 
 export const getMaskUserName = createSelector(
   getUserFeatureState,
