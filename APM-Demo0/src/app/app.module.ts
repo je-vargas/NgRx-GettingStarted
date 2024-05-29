@@ -19,6 +19,7 @@ import { UserModule } from './user/user.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RouterModule } from '@angular/router';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { RouterModule } from '@angular/router';
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mod
     }),
+    EffectsModule.forRoot([]),
   ],
   declarations: [
     AppComponent,
