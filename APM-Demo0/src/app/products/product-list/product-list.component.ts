@@ -20,18 +20,15 @@ import { Observable } from 'rxjs';
 })
 export class ProductListComponent implements OnInit {
   pageTitle = 'Products';
-  errorMessage: string;
 
   products$: Observable<Product[]>;
   selectedProduct$: Observable<Product>;
   displayCode$: any;
+  errorMessage$: Observable<string>;
 
-  constructor(
-    private store: Store<State>,
-  ) {}
+  constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
-
     this.products$ = this.store.select(getProducts);
 
     this.store.dispatch(ProductActions.loadProducts());
@@ -39,7 +36,6 @@ export class ProductListComponent implements OnInit {
     this.selectedProduct$ = this.store.select(getCurrentProduct);
 
     this.displayCode$ = this.store.select(getShowProductCode);
-
   }
 
   checkChanged(): void {
