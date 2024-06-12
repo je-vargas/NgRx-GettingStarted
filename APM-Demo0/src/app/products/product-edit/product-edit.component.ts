@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Product } from '../product';
@@ -70,7 +70,6 @@ export class ProductEditComponent implements OnInit {
     });
 
     // Watch for changes to the currently selected product
-    //* todo unsubscribe
     this.product$ = this.store
       .select(getCurrentProduct)
       .pipe(tap((currentProduct) => this.displayProduct(currentProduct)));
@@ -147,14 +146,12 @@ export class ProductEditComponent implements OnInit {
           this.productService.createProduct(product).subscribe({
             next: (p) =>
               this.store.dispatch(ProductActions.setCurrentProduct(product)),
-            error: (err) => (this.errorMessage = err),
+            // error: (err) => (this.errorMessage = err),
+            error: (err) =>
+              this.store.dispatch(ProductActions.updateProductFailure(err)),
           });
         } else {
-          this.productService.updateProduct(product).subscribe({
-            next: (p) =>
-              this.store.dispatch(ProductActions.setCurrentProduct(product)),
-            error: (err) => (this.errorMessage = err),
-          });
+          this.store.dispatch(ProductActions.updateProduct({ product }));
         }
       }
     }
