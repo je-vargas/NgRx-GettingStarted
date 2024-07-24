@@ -121,12 +121,14 @@ export class ProductEditComponent implements OnInit {
   }
 
   deleteProduct(product: Product): void {
+    console.log('product delete: ', product);
     if (product && product.id) {
       if (confirm(`Really delete the product: ${product.productName}?`)) {
-        this.productService.deleteProduct(product.id).subscribe({
-          next: () => this.store.dispatch(ProductActions.clearCurrentProduct()),
-          error: (err) => (this.errorMessage = err),
-        });
+        this.store.dispatch(ProductActions.deleteProduct({ product }));
+        // this.productService.deleteProduct(product.id).subscribe({
+        //   next: () => this.store.dispatch(ProductActions.clearCurrentProduct()),
+        //   error: (err) => (this.errorMessage = err),
+        // });
       }
     } else {
       // No need to delete, it was never saved
@@ -142,14 +144,18 @@ export class ProductEditComponent implements OnInit {
         // This ensures values not on the form, such as the Id, are retained
         const product = { ...originalProduct, ...this.productForm.value };
 
+        console.log('product: ', product);
+
         if (product.id === 0) {
-          this.productService.createProduct(product).subscribe({
-            next: (p) =>
-              this.store.dispatch(ProductActions.setCurrentProduct(product)),
-            // error: (err) => (this.errorMessage = err),
-            error: (err) =>
-              this.store.dispatch(ProductActions.updateProductFailure(err)),
-          });
+          this.store.dispatch(ProductActions.createProduct({ product }));
+          // this.productService.createProduct(product).subscribe({
+          //   next: (p) =>
+          //     // this.store.dispatch(ProductActions.setCurrentProduct(product)),
+          //     this.store.dispatch(ProductActions.addProduct({ product })),
+          //   // error: (err) => (this.errorMessage = err),
+          //   error: (err) =>
+          //     this.store.dispatch(ProductActions.updateProductFailure(err)),
+          // });
         } else {
           this.store.dispatch(ProductActions.updateProduct({ product }));
         }

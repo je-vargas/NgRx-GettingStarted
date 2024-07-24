@@ -70,6 +70,9 @@ export const getError = createSelector(
 );
 //-----------------------------------------------------------------------------------#
 
+//! NOTE - ACTIONS ON REDUCER METHOD SHOULD ALWAYS BE INMUTTABLE ON EXISTING STATE -> RATHER SHOULD CREATE A NEW eg PRODUCT
+//! PRODUCT IS THEN REPLACED FOR NEW ONE
+
 //- REMEMBER :: createReducer -> sets state via an action
 export const productReducer = createReducer<ProductState>(
   initialState,
@@ -130,6 +133,38 @@ export const productReducer = createReducer<ProductState>(
     return {
       ...state,
       error: action.error,
+    }; 
+  }),
+//? After a create, the currentProduct is the new product.
+  on(ProductActions.createProductSuccess, (state, action): ProductState => {
+    const updatedProducts = [...state.products, action.product];
+    console.log('addproduct: ', updatedProducts);
+    return {
+      ...state,
+      products: updatedProducts,
+      currentProductId: action.product.id,
+      error: '',
+    };
+  }),
+
+  on(ProductActions.createProductFailure, (state, action): ProductState => {
+    return {
+      ...state,
+      currentProductId: 0,
+      error: action.error,
+    };
+  }),
+
+  on(ProductActions.deleteProduct, (state, action): ProductState => {
+    const updatedProducts = state.products.filter(
+      (item) => action.product.id !== item.id
+    );
+    console.log('deleted product: ', updatedProducts);
+    return {
+      ...state,
+      products: updatedProducts,
+      currentProductId: null,
+      error: '',
     };
   })
 );

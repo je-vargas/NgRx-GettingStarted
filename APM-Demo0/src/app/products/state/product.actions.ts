@@ -38,4 +38,37 @@ export const updateProductFailure = createAction(
   props<{ error: string }>()
 );
 
+//#implement actions to add and delete
 
+//------------------ CREATE
+export const createProduct = createAction(
+  '[Product] Add Product',
+  props<{ product: Product }>()
+);
+
+export const createProductSuccess = createAction(
+  '[Product] Add Product Success',
+  props<{ product: Product }>() //!not sure if an need an action paramenter for this one
+);
+
+export const createProductFailure = createAction(
+  '[Product] Add Product Failure',
+  props<{ error: string }>()
+);
+
+
+//------------------ DELETE
+export const deleteProduct = createAction(
+  '[Product] Delete Product',
+  props<{ product: Product }>()
+  // props<{ productId: number }>() //* might be better o changes this to prdcut id
+);
+export const deleteProductFailure = createAction(
+  '[Product] Delete Product Success',
+  props<{ error: string }>()
+);
+
+export const deleteProductSuccess = createAction(
+  '[Product] Delete Product Success',
+  props<{ product: Product }>() //!not sure if an need an action paramenter for this one
+);
